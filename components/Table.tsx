@@ -1,6 +1,7 @@
 'use client';
 import { BOARD_NEEDED, STAGES, pots, potWinners, type Game } from '@/lib/engine';
 import { CardView } from './CardView';
+import { ChipStack } from './ChipStack';
 import { AnimatedNumber } from './AnimatedNumber';
 
 // Seats sit on an ellipse; seat 0 is at the bottom.
@@ -34,6 +35,7 @@ export function Table({ game }: { game: Game }) {
           <div className="stage">{h.phase === 'over' ? 'GAME OVER' : STAGES[h.stage]}</div>
           <div className="pot-label">POT</div>
           <div className="pot-value"><AnimatedNumber value={potSum} /></div>
+          <div className="pot-chips"><ChipStack key={potSum > 0 ? 'p' : 'e'} amount={potSum} max={12} /></div>
           {sidePots > 1 && <div className="side-count">{sidePots} pots</div>}
           <div className="board">
             {Array.from({ length: 5 }, (_, i) => {
@@ -78,7 +80,7 @@ export function Table({ game }: { game: Game }) {
                   </span>
                 </div>
                 <div className="seat-stack">{p.stack}</div>
-                {p.bet > 0 && <div key={p.bet} className="bet-chip">{p.bet}</div>}
+                {p.bet > 0 && <div key={p.bet} className="bet-chip"><ChipStack amount={p.bet} max={6} /><span>{p.bet}</span></div>}
                 {status && <div className="seat-status">{status}</div>}
               </div>
             </div>
